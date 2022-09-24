@@ -14,10 +14,15 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'ray-x/lsp_signature.nvim'
+
 " Snippets
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/cmp-vsnip'
+
+" Syntactic language support
+Plug 'rust-lang/rust.vim'
+Plug 'fatih/vim-go'
 call plug#end()
 
 
@@ -113,6 +118,15 @@ lspconfig.rust_analyzer.setup {
   capabilities = capabilities,
 }
 
+
+lspconfig.pyright.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  capabilities = capabilities,
+}
+
 lspconfig.gopls.setup {
   on_attach = function(client, bufnr)
     require "lsp_signature".on_attach(signature_setup, bufnr)
@@ -143,4 +157,4 @@ call Base16hi("LspSignatureActiveParameter", g:base16_gui05, g:base16_gui03, g:b
 " NerdTree
 nnoremap <leader>n <cmd>NERDTreeToggle <CR>
 " Telescope
-nnoremap <leader>ff <cmd>Telescope find_files<CR> 
+nnoremap <leader>f <cmd>Telescope find_files<CR> 
