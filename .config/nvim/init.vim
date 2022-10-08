@@ -1,7 +1,13 @@
 let mapleader = "\<Space>"
+set clipboard+=unnamedplus
+" :set spell
+setlocal spell
+set spelllang=nl,en_gb
+inoremap <C-l> <c-g>u<Esc>[s1z=`]a<c-g>u
 call plug#begin()
 " Tex Editing
-Plug 'donRaphaco/neotex', { 'for': 'tex' }
+"Plug 'lervag/vimtex'
+ Plug 'donRaphaco/neotex', { 'for': 'tex' }
 " File Finding
 Plug 'preservim/nerdtree'
 Plug 'nvim-lua/plenary.nvim'
@@ -19,12 +25,40 @@ Plug 'ray-x/lsp_signature.nvim'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'hrsh7th/cmp-vsnip'
-
+" PhP
+Plug 'phpactor/phpactor'
+Plug 'ncm2/ncm2'
+Plug 'phpactor/ncm2-phpactor'
 " Syntactic language support
 Plug 'rust-lang/rust.vim'
-Plug 'fatih/vim-go'
+Plug 'sirver/ultisnips'
 call plug#end()
 
+" ========================================================================================================
+" Snippets  
+" ========================================================================================================
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+" ========================================================================================================
+" Latex Setting 
+" ========================================================================================================
+let g:Tex_CompileRule_pdf = 'biber $'
+" filetype plugin indent on
+let g:tex_flavor='latex'
+let g:vimtex_quickfix_mode=0
+set conceallevel=1
+let g:tex_conceal='abdmg'
+syntax enable
+let g:vimtex_view_method = 'zathura'
+
+let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
+let g:UltiSnipsSnippetDirectories=[$HOME.'/home/abi/configs/.config/nvim/snippets/']
+let g:vimtex_compiler_method = 'latexrun'
+
+let maplocalleader = ","
 
 " ========================================================================================================
 " LSP Settings
@@ -120,6 +154,13 @@ lspconfig.rust_analyzer.setup {
 
 
 lspconfig.pyright.setup {
+  on_attach = on_attach,
+  flags = {
+    debounce_text_changes = 150,
+  },
+  capabilities = capabilities,
+}
+lspconfig.texlab.setup {
   on_attach = on_attach,
   flags = {
     debounce_text_changes = 150,
